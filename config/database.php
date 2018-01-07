@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'missionapp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,6 +32,19 @@ return [
     */
 
     'connections' => [
+
+        'missionapp' => [
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'missionapp'),
+            'username' => env('DB_USERNAME', 'ldsapi'),
+            'password' => env('DB_PASSWORD', 'RwcV7gh2kkMG92XL'),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer',
+        ],
 
         'sqlite' => [
             'driver' => 'sqlite',
