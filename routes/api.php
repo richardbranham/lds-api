@@ -37,3 +37,9 @@ Route::get('/location', function (Request $request) {
 	return Location::orderBy('created_at')->get();
 });
 
+
+Route::get('/getfile', function (Request $request) {
+	//return storage_path('app/public');
+	$contents = Storage::get('public/StatueOfLiberty.jpg');
+	return $contents;
+});
