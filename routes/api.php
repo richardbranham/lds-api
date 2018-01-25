@@ -48,6 +48,7 @@ Route::get('/getfile', function (Request $request) {
 });
 
 Route::get('/training/getcontent', function (Request $request) {
+	Log::info("Getting content");
 	$trainingContent = TrainingContent::first();
 
 	$contents = Storage::url($trainingContent->file_path . "/" . $trainingContent->file_name);
