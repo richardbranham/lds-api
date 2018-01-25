@@ -57,9 +57,22 @@ Route::get('/training/getcontent', function (Request $request) {
 
 Route::post('/training/getprogress', function (Request $request) {
 	$users_id = $request->userId;
-	$training_content_uuid = $request->contentId;
+	$training_contents_uuid = $request->contentId;
 
-	$trainingProgress = TrainingProgress::where([['training_contents_uuid', '=', $training_content_uuid], ['users_id', '=', $users_id]])->first();
+	Log::info("users_id = " . $users_id);
+	Log::info("training_contents_uuid = " . $training_contents_uuid);
+
+	$trainingProgress = TrainingProgress::where([['training_contents_uuid', '=', $training_contents_uuid], ['users_id', '=', $users_id]])->first();
+
+	if(!$trainingProgress) {
+		$t = new TrainingProgress();
+		$t->training_progress_uuid = Uuid::generate();
+		$t->training_contents_uuid = $training_contents_uuid;
+		$t->users_id = $users_id;
+		$t->video_last_location = 0;
+		$t->save();
+		return $t;
+	}
 
 	return $trainingProgress;
 });
