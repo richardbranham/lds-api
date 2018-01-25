@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 
 use Webpatser\Uuid\Uuid;
 use App\Location;
+use App\TrainingContent;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +43,12 @@ Route::get('/getfile', function (Request $request) {
 	$contents = Storage::get('public/StatueOfLiberty.jpg');
 	$contents = Storage::url('public/StatueOfLiberty.jpg');
 	$contents = Storage::url('public/UserStatusChanges.mp4');
+	return $contents;
+});
+
+Route::get('/training/getcontent', function (Request $request) {
+	$trainingContent = TrainingContent::first();
+
+	$contents = Storage::url($trainingContent->file_path . "/" . $trainingContent->file_name);
 	return $contents;
 });
