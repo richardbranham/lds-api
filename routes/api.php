@@ -56,11 +56,12 @@ Route::get('/training/getcontent', function (Request $request) {
 
 
 Route::post('/training/getprogress', function (Request $request) {
-	return $request->all();
+	$users_id = $request->userId;
+	$training_content_uuid = $request->contentId;
 
-	$trainingProgress = TrainingProgress::first();
+	$trainingProgress = TrainingProgress::where([['training_contents_uuid', '=', $training_content_uuid], ['users_id', '=', $users_id]])->first();
 
-	return $contents;
+	return $trainingProgress;
 });
 
 
