@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Webpatser\Uuid\Uuid;
 use App\Location;
 use App\TrainingContent;
+use App\TrainingProgress;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,3 +53,23 @@ Route::get('/training/getcontent', function (Request $request) {
 	$contents = Storage::url($trainingContent->file_path . "/" . $trainingContent->file_name);
 	return $contents;
 });
+
+
+Route::post('/training/getprogress', function (Request $request) {
+	return $request->all();
+
+	$trainingProgress = TrainingProgress::first();
+
+	return $contents;
+});
+
+
+Route::post('/training/updateprogress', function (Request $request) {
+	return "Nada";
+
+	$trainingProgress = TrainingContent::first();
+
+	$contents = Storage::url($trainingContent->file_path . "/" . $trainingContent->file_name);
+	return $contents;
+});
+
