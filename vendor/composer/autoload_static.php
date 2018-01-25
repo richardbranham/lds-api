@@ -382,6 +382,7 @@ class ComposerStaticInita8bca89bae4860c92c7032eb0291fc97
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\CreateUser' => __DIR__ . '/../..' . '/app/Console/Commands/CreateUser.php',
         'App\\Console\\Commands\\InsertCoordinates' => __DIR__ . '/../..' . '/app/Console/Commands/InsertCoordinates.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -403,6 +404,8 @@ class ComposerStaticInita8bca89bae4860c92c7032eb0291fc97
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\TrainingContent' => __DIR__ . '/../..' . '/app/TrainingContent.php',
+        'App\\TrainingProgress' => __DIR__ . '/../..' . '/app/TrainingProgress.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',

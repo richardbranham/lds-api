@@ -39,7 +39,8 @@ Route::get('/location', function (Request $request) {
 
 
 Route::get('/getfile', function (Request $request) {
-	//return storage_path('app/public');
 	$contents = Storage::get('public/StatueOfLiberty.jpg');
+	$contents = Storage::url('public/StatueOfLiberty.jpg');
+	$contents = Storage::url('public/UserStatusChanges.mp4');
 	return $contents;
 });
