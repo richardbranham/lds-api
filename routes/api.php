@@ -40,6 +40,13 @@ Route::get('/location', function (Request $request) {
 });
 
 
+Route::post('/uploadfile', function (Request $request) {
+	//Log::info($request->all());
+	Log::info($request->uploads[0]);
+	Log::info($request->uploads[0]->storeAs('public', 'testfile.txt'));
+	return $request->all();
+});
+
 Route::get('/getfile', function (Request $request) {
 	$contents = Storage::get('public/StatueOfLiberty.jpg');
 	$contents = Storage::url('public/StatueOfLiberty.jpg');
