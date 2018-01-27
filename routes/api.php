@@ -79,7 +79,7 @@ Route::get('/getfile', function (Request $request) {
 	return $contents;
 });
 
-Route::post('/training/getcontent', function (Request $request) {
+Route::middleware('auth:api')->post('/training/getcontent', function (Request $request) {
 	Log::info("Getting content");
 	Log::info($request->all());
 
@@ -96,7 +96,10 @@ Route::post('/training/getcontent', function (Request $request) {
 
 	if(isset($trainingContent)) {
 		foreach($trainingContent as $trainingFile) {
-			$contents = Storage::url("public/" . $trainingFile->file_name);
+			$contents = ['file_path' => Storage::url("public/" . $trainingFile->file_name)];
+			$fileName = explode("-", $trainingFile->file_name)[0];
+			$fileName .= "." . explode(".", $trainingFile->file_name)[1];
+			$contents += ['file_name' => $fileName];
 			array_push($arrTrainingFiles, $contents);
 		}
 	}
