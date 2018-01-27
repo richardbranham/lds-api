@@ -177,7 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-	Pbmedia\LaravelFFMpeg\FFMpegServiceProvider::class,
+	    Pbmedia\LaravelFFMpeg\FFMpegServiceProvider::class,
+
+        //Tymon\JWTAuth\Providers\LaravelServiceProvider::class
 
     ],
 
@@ -228,7 +230,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-	'FFMpeg' => Pbmedia\LaravelFFMpeg\FFMpegFacade::class,
+	   'FFMpeg' => Pbmedia\LaravelFFMpeg\FFMpegFacade::class,
+
+        //'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        //'JWTFactory' => Tymon\JWTAuthFacades\JWTFactory::class
     ],
 
 ];

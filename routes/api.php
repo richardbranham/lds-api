@@ -20,6 +20,21 @@ use App\TrainingProgress;
 
 //http://ldsapi.kotter.net/api/user
 
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
+});
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -79,7 +94,7 @@ Route::get('/getfile', function (Request $request) {
 	return $contents;
 });
 
-Route::middleware('auth:api')->post('/training/getcontent', function (Request $request) {
+Route::post('/training/getcontent', function (Request $request) {
 	Log::info("Getting content");
 	Log::info($request->all());
 
