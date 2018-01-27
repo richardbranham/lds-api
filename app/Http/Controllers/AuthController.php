@@ -25,7 +25,7 @@ class AuthController extends Controller
      */
     public function login()
     {
-    	return "Login";
+    	//return "Login";
     	
         $credentials = request(['email', 'password']);
 
