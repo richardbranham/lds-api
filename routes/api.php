@@ -42,69 +42,9 @@ Route::get('/location', function (Request $request) {
 
 
 Route::post('/uploadfile', function (Request $request) {
-	Log::info($request->all());
-
-	Log::info($request->uploads[0]);
- 	//Log::info($request->uploads[0]->storeAs('', 'testfile.txt'));
-
- 	//$contents = Storage::get('public/StatueOfLiberty.jpg');
- 	//$path = Storage::putFileAs('public', $request->uploads[0]->getClientOriginalName(), 'local');
-
-	//return "res = " . move_uploaded_file($request->uploads[0]->getClientOriginalName(), "/var/www/html/lds-api/storage/app/public/" . $request->uploads[0]->getClientOriginalName());
+	//Log::info($request->all());
 
 	return $request->uploads[0]->move('/var/www/html/lds-api/storage/app/public/', $request->uploads[0]->getClientOriginalName());
-
-
- 	return $request->all();
-/*
-
-	Log::info(print_r($request->uploads[0]->getClientOriginalName(), true));
-
-	$fileName = $request->uploads[0]->getClientOriginalName();
-	Log::info("fileName:  " . $fileName);
-
-	$milliseconds = round(microtime(true) * 1000);
-
-	$storedFileName = $milliseconds . "--" . $fileName;
-	Log::info("storedFileName:  " . $storedFileName);
-	$storedFile = $request->uploads[0]->storeAs('public', $storedFileName);
-	Log::info("storedFile:  " . $storedFile);
-	return;
-
-    $fileMetaData = new TrainingContent();
-    $fileMetaData->training_contents_uuid = Uuid::generate();
-    $fileMetaData->file_path = 'public';
-    $fileMetaData->file_name = $fileName;
-    $fileMetaData->file_type = $request->uploads[0]->getMimeType();
-    $fileMetaData->video_length = 10;
-
-    Log::info("File extension:  " . strtolower($request->uploads[0]->getClientOriginalExtension()));
-
-    if(strtolower($request->uploads[0]->getClientOriginalExtension()) == "mp4") {
-    	$ffmpeg = FFMpeg::create();
-
-		if(file_exists($storedFile . "/" . $fileName)) { 
-			$finfo = finfo_open(FILEINFO_MIME_TYPE);
-
-			$mime_type = finfo_file($finfo, $storedFile . "/" . $fileName);
-
-			finfo_close($finfo);
-
-			if (preg_match('/video//', $mime_type)) { 
-				$video_attributes = _get_video_attributes($storedFile, $ffmpeg_path);
-
-				Log::info($video_attributes['hours'] . ':' . $video_attributes['mins'] . ':' . $video_attributes['secs'] . '.' . $video_attributes['ms']);
-			} 
-		}
-	    $fileMetaData->video_length = 10;
-    }
-*/
-
-    //echo print_r($fileMetaData, true);
-    //Log::info("Saving file metadata:  " . print_r($fileMetaData, true));
-    //$fileMetaData->save();
-
-	//return $request->all();
 });
 
 Route::get('/getfile', function (Request $request) {
@@ -114,16 +54,32 @@ Route::get('/getfile', function (Request $request) {
 	return $contents;
 });
 
-Route::get('/training/getcontent', function (Request $request) {
+Route::post('/training/getcontent', function (Request $request) {
 	Log::info("Getting content");
+	Log::info($request->all());
+
+	if(isset($request->users_id)) {
+		Log::info("users_id is set to " . $request->users_id);
+	}
+	else {
+		Log::info("users_id is not set");
+	}
+
 	$trainingContent = TrainingContent::first();
 
-	$contents = Storage::url($trainingContent->file_path . "/" . $trainingContent->file_name);
-	return $contents;
+	if(isset($trainingContent)) {
+		$contents = Storage::url($trainingContent->file_path . "/" . $trainingContent->file_name);
+		$contents = "/storage/aPasswordEntry - Copy.mp4";
+		return $contents;
+	}
+	else {
+		return json_encode("no_training_found");
+	}
 });
 
 
 Route::post('/training/getprogress', function (Request $request) {
+	Log::info("Getting progress");
 	$users_id = $request->userId;
 	$training_contents_uuid = $request->contentId;
 
