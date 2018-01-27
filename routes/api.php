@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 
 use Webpatser\Uuid\Uuid;
-use FFMpeg\FFMpeg;
+use FFMpeg;
 use App\Location;
 use App\TrainingContent;
 use App\TrainingProgress;
@@ -44,7 +44,31 @@ Route::get('/location', function (Request $request) {
 Route::post('/uploadfile', function (Request $request) {
 	//Log::info($request->all());
 
-	return $request->uploads[0]->move('/var/www/html/lds-api/storage/app/public/', $request->uploads[0]->getClientOriginalName());
+	$fileType = $request->uploads[0]->getMimeType();
+	Log::info("move:  " . $request->uploads[0]->move('/var/www/html/lds-api/storage/app/public/', $request->uploads[0]->getClientOriginalName()));
+
+	$ffprobe = FFMpeg\FFProbe::create(array(
+	    'ffmpeg.binaries'  => '/usr/bin/ffmpeg',
+	    'ffprobe.binaries' => '/usr/bin/ffprobe',
+	    'ffmpeg.threads'   => 12   // The number of threads that FFMpeg should use
+	));
+	$duration = $ffprobe
+           ->streams('/var/www/html/lds-api/storage/app/public/' . $request->uploads[0]->getClientOriginalName())
+           ->videos()                   
+           ->first()                  
+           ->get('duration');
+
+    Log::info("duration = " . $duration);
+
+    $trainingModel = new TrainingContent();
+    $trainingModel->training_contents_uuid = Uuid::generate();
+    $trainingModel->file_path = '/var/www/html/lds-api/storage/app/public/';
+    $trainingModel->file_name = $request->uploads[0]->getClientOriginalName();
+    $trainingModel->video_length = intval($duration);
+    if($duration > 0) {
+    	$trainingModel->file_type = $fileType;
+    }
+    $trainingModel->save();
 });
 
 Route::get('/getfile', function (Request $request) {
@@ -65,11 +89,11 @@ Route::post('/training/getcontent', function (Request $request) {
 		Log::info("users_id is not set");
 	}
 
-	$trainingContent = TrainingContent::first();
+	$trainingContent = TrainingContent::where('file_name', '=', 'AppCrash.mp4')->first();
 
 	if(isset($trainingContent)) {
 		$contents = Storage::url($trainingContent->file_path . "/" . $trainingContent->file_name);
-		$contents = "/storage/aPasswordEntry - Copy.mp4";
+		//$contents = "/storage/aPasswordEntry - Copy.mp4";
 		return $contents;
 	}
 	else {
