@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 
 use Webpatser\Uuid\Uuid;
-//use FFMpeg;
 use App\Location;
 use App\TrainingContent;
 use App\TrainingProgress;
@@ -91,15 +90,18 @@ Route::post('/training/getcontent', function (Request $request) {
 		Log::info("users_id is not set");
 	}
 
-	$trainingContent = TrainingContent::where('file_name', '=', 'AppCrash.mp4')->first();
+	$arrTrainingFiles = [];
+
+	$trainingContent = TrainingContent::all();
 
 	if(isset($trainingContent)) {
-		$contents = Storage::url($trainingContent->file_path . "/" . $trainingContent->file_name);
-		return $contents;
+		foreach($trainingContent as $trainingFile) {
+			$contents = Storage::url("public/" . $trainingFile->file_name);
+			array_push($arrTrainingFiles, $contents);
+		}
 	}
-	else {
-		return json_encode("no_training_found");
-	}
+
+	return $arrTrainingFiles;
 });
 
 
