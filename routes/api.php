@@ -32,12 +32,12 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
 
+    Route::get('user', function (Request $request) {
+    	return $request->user();
+	});
+
 });
 
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::get('/location', function (Request $request) {
 
@@ -94,7 +94,7 @@ Route::get('/getfile', function (Request $request) {
 	return $contents;
 });
 
-Route::post('/training/getcontent', function (Request $request) {
+Route::middleware('auth:api')->post('/training/getcontent', function (Request $request) {
 	Log::info("Getting content");
 	Log::info($request->all());
 
