@@ -6,6 +6,7 @@ use Webpatser\Uuid\Uuid;
 use App\Location;
 use App\TrainingContent;
 use App\TrainingProgress;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,18 +93,23 @@ Route::group([
 
 	Route::post('/training/getcontent', function (Request $request) {
 		Log::info("Getting content");
-		Log::info($request->all());
+		//Log::info($request->all());
+		Log::info("auth user: " . Auth::user());
 
-		if(isset($request->users_id)) {
-			Log::info("users_id is set to " . $request->users_id);
+		$users_id = Auth::user()->id;
+
+		if(isset($users_id)) {
+			Log::info("users_id is set to " . $users_id);
 		}
 		else {
 			Log::info("users_id is not set");
 		}
 
+		return User::find($users_id)->trainingassignments;
+
 		$arrTrainingFiles = [];
 
-		$trainingContent = TrainingContent::all();
+		$trainingContent = TrainingProgress::where('users_id', '=', $users_id)->get();
 
 		if(isset($trainingContent)) {
 			foreach($trainingContent as $trainingFile) {

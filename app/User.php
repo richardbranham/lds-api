@@ -50,4 +50,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function trainingassignments()
+    {
+        echo "trainingassignments" . PHP_EOL;
+        return $this->hasMany('App\TrainingProgress', 'users_id', 'id');
+    }    
 }
