@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 
 use Webpatser\Uuid\Uuid;
-use FFMpeg;
+//use FFMpeg;
 use App\Location;
 use App\TrainingContent;
 use App\TrainingProgress;
@@ -44,26 +44,28 @@ Route::get('/location', function (Request $request) {
 Route::post('/uploadfile', function (Request $request) {
 	//Log::info($request->all());
 
+	$timestamp = round(microtime(true));
+
+	$start = microtime(true);
+
+	$diskFilePath = '/var/www/html/lds-api/storage/app/public/';
+	$diskFileName = explode(".", $request->uploads[0]->getClientOriginalName())[0] . "-$timestamp." . $request->uploads[0]->getClientOriginalExtension();
+	$diskFileNameWithPath = $diskFilePath . $diskFileName;
+
 	$fileType = $request->uploads[0]->getMimeType();
-	Log::info("move:  " . $request->uploads[0]->move('/var/www/html/lds-api/storage/app/public/', $request->uploads[0]->getClientOriginalName()));
+	Log::info("move:  " . $request->uploads[0]->move($diskFilePath, $diskFileName));
 
-	$ffprobe = FFMpeg\FFProbe::create(array(
-	    'ffmpeg.binaries'  => '/usr/bin/ffmpeg',
-	    'ffprobe.binaries' => '/usr/bin/ffprobe',
-	    'ffmpeg.threads'   => 12   // The number of threads that FFMpeg should use
-	));
-	$duration = $ffprobe
-           ->streams('/var/www/html/lds-api/storage/app/public/' . $request->uploads[0]->getClientOriginalName())
-           ->videos()                   
-           ->first()                  
-           ->get('duration');
+	$getID3 = new getID3;
+    $ThisFileInfo = $getID3->analyze($diskFileNameWithPath);
+    $duration = $ThisFileInfo['playtime_seconds'];
 
-    Log::info("duration = " . $duration);
+    $end = microtime(true);
+    Log::info("Processed in " . round(($end - $start) * 1000) . " milliseconds.");
 
     $trainingModel = new TrainingContent();
     $trainingModel->training_contents_uuid = Uuid::generate();
-    $trainingModel->file_path = '/var/www/html/lds-api/storage/app/public/';
-    $trainingModel->file_name = $request->uploads[0]->getClientOriginalName();
+    $trainingModel->file_path = $diskFilePath;
+    $trainingModel->file_name = $diskFileName;
     $trainingModel->video_length = intval($duration);
     if($duration > 0) {
     	$trainingModel->file_type = $fileType;
@@ -93,7 +95,6 @@ Route::post('/training/getcontent', function (Request $request) {
 
 	if(isset($trainingContent)) {
 		$contents = Storage::url($trainingContent->file_path . "/" . $trainingContent->file_name);
-		//$contents = "/storage/aPasswordEntry - Copy.mp4";
 		return $contents;
 	}
 	else {
