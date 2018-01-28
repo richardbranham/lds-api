@@ -110,9 +110,9 @@ Route::group([
 			Log::info("users_id is not set");
 		}
 
-		Log::info(json_encode(User::find($users_id)->trainingassignments));
+		Log::info(json_encode(User::find($users_id)->trainingcontent));
 
-		return User::find($users_id)->trainingassignments;
+		return User::find($users_id)->trainingcontent;
 
 		$arrTrainingFiles = [];
 
