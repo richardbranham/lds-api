@@ -91,7 +91,7 @@ Route::group([
 		return $contents;
 	});
 
-	Route::post('/training/getcontent', function (Request $request) {
+	Route::post('/training/getcontent/{getall?}', function (Request $request) {
 		Log::info("Getting content");
 		//Log::info($request->all());
 		Log::info("auth user: " . Auth::user());
@@ -99,6 +99,16 @@ Route::group([
 		if(!Auth::user())
 		{
 			return "{'error':'User not set'}";
+		}
+
+		if($request->getall == true) {
+			Log::info("Returning all training content.");
+			$recs = TrainingContent::all();
+			foreach($recs as $rec) {
+				Log::info("===> " . $rec);
+			}
+			Log::info(TrainingContent::all());
+			return TrainingContent::all();
 		}
 
 		$users_id = Auth::user()->id;
@@ -113,22 +123,6 @@ Route::group([
 		Log::info(json_encode(User::find($users_id)->trainingcontent));
 
 		return User::find($users_id)->trainingcontent;
-
-		$arrTrainingFiles = [];
-
-		$trainingContent = TrainingProgress::where('users_id', '=', $users_id)->get();
-
-		if(isset($trainingContent)) {
-			foreach($trainingContent as $trainingFile) {
-				$contents = ['file_path' => Storage::url("public/" . $trainingFile->file_name)];
-				$fileName = explode("-", $trainingFile->file_name)[0];
-				$fileName .= "." . explode(".", $trainingFile->file_name)[1];
-				$contents += ['file_name' => $fileName];
-				array_push($arrTrainingFiles, $contents);
-			}
-		}
-
-		return $arrTrainingFiles;
 	});
 
 
@@ -155,6 +149,10 @@ Route::group([
 		return $trainingProgress;
 	});
 
+	Route::post('/training/push', function (Request $request) {
+		// Continue logic for pushing training to all users.
+		return "Nada push";
+	});
 
 	Route::post('/training/updateprogress', function (Request $request) {
 		return "Nada";
