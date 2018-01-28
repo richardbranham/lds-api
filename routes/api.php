@@ -96,6 +96,11 @@ Route::group([
 		//Log::info($request->all());
 		Log::info("auth user: " . Auth::user());
 
+		if(!Auth::user())
+		{
+			return "{'error':'User not set'}";
+		}
+
 		$users_id = Auth::user()->id;
 
 		if(isset($users_id)) {
@@ -104,6 +109,8 @@ Route::group([
 		else {
 			Log::info("users_id is not set");
 		}
+
+		Log::info(json_encode(User::find($users_id)->trainingassignments));
 
 		return User::find($users_id)->trainingassignments;
 

@@ -53,7 +53,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function trainingassignments()
     {
-        echo "trainingassignments" . PHP_EOL;
         return $this->hasMany('App\TrainingProgress', 'users_id', 'id');
-    }    
+    }
+
+    public function trainingcontent()
+    {
+        return $this->belongsToMany('App\TrainingContent', 'training_progress', 'users_id', 'training_contents_uuid');
+    }
 }

@@ -23,4 +23,8 @@ class TrainingProgress extends Model
     protected $casts = [
     ];
 
+    public function trainingcontent()
+    {
+        return $this->hasOne('App\TrainingContent', 'training_contents_uuid', 'training_contents_uuid');
+    }
 }
