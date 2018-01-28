@@ -126,9 +126,20 @@ Route::group([
 	});
 
 
-	Route::post('/training/getprogress', function (Request $request) {
+	Route::post('/training/getprogress/{useronly?}', function (Request $request) {
 		Log::info("Getting progress");
-		$users_id = $request->userId;
+
+		if($request->useronly) {
+			Log::info("Auth::id() = " . Auth::id());
+			//return TrainingProgress::where('users_id', '=', $userid)->get();
+			return User::find(Auth::id())->trainingcontent;
+		}
+		else {
+			return TrainingProgress::all();
+		}
+
+
+		/*
 		$training_contents_uuid = $request->contentId;
 
 		Log::info("users_id = " . $users_id);
@@ -147,6 +158,7 @@ Route::group([
 		}
 
 		return $trainingProgress;
+		*/
 	});
 
 	Route::post('/training/push', function (Request $request) {
@@ -170,12 +182,16 @@ Route::group([
 	});
 
 	Route::post('/training/updateprogress', function (Request $request) {
-		return "Nada";
 
-		$trainingProgress = TrainingContent::first();
+		Log::info("training_progress_uuid = " . $request->training_progress_uuid);
 
-		$contents = Storage::url($trainingContent->file_path . "/" . $trainingContent->file_name);
-		return $contents;
+		$trainingProgress = TrainingProgress::find($request->training_progress_uuid);
+		Log::info("trainingProgress = " . $trainingProgress);
+		$trainingProgress->video_last_location = floor($request->video_last_location);
+		$trainingProgress->save();
+
+		Log::info("Saved progress update to DB.");
+
 	});
 
 }); // group
