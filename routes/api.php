@@ -150,8 +150,23 @@ Route::group([
 	});
 
 	Route::post('/training/push', function (Request $request) {
-		// Continue logic for pushing training to all users.
-		return "Nada push";
+		$uuid = $request->uuid;
+		//$allUsers = Users::where();
+
+		$users = User::whereDoesntHave('trainingcontent', function ($query) use ($uuid) {
+		    	$query->where('training_contents.training_contents_uuid', '=', $uuid);
+			})->get();
+
+		foreach($users as $user) {
+			$progressRecord = new TrainingProgress();
+			$progressRecord->training_progress_uuid = Uuid::generate();
+			$progressRecord->training_contents_uuid = $uuid;
+			$progressRecord->users_id = $user->id;
+			$progressRecord->video_last_location = 0;
+			$progressRecord->save();
+		}
+
+		return $users;
 	});
 
 	Route::post('/training/updateprogress', function (Request $request) {

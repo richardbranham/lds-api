@@ -8,6 +8,7 @@ class TrainingProgress extends Model
 {
     protected $table = 'training_progress';
     protected $primaryKey = 'training_progress_uuid';
+    protected $keyType = 'uuid';
     protected $fillable = [
     	'training_progress_uuid',
         'training_contents_uuid',
