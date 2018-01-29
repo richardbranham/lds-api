@@ -58,6 +58,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function trainingcontent()
     {
-        return $this->belongsToMany('App\TrainingContent', 'training_progress', 'users_id', 'training_contents_uuid')->withPivot('video_last_location', 'training_progress_uuid');
+        return $this->belongsToMany('App\TrainingContent', 'training_progress', 'users_id', 'training_contents_uuid')->withPivot('video_last_location', 'training_progress_uuid', 'updated_at');
     }
 }
