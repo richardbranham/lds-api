@@ -185,5 +185,24 @@ Route::group([
 
 	});
 
+	Route::post('/user/create', function (Request $request) {
+		// $2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe
+		//Log::info("user create = " . $request->email);
+		Log::info("user create:  ");
+		Log::info($request->all());
+		Log::info("user create = " . $request->userFullName);
+
+		$user = new User();
+		$user->name = $request->userFullName;
+		$user->email = $request->email;
+		$user->password = '$2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe';
+		$user->save();
+
+		Log::info("Saved new user to DB.");
+
+		return [];
+
+	});
+
 }); // group
 
