@@ -204,5 +204,14 @@ Route::group([
 
 	});
 
+	Route::post('/user/get/{users_id?}', function (Request $request) {
+
+		//Log::info("user get = " . $request->email);
+		Log::info("user get:  ");
+		Log::info($request->all());
+
+		return User::all();
+	});
+
 }); // group
 
