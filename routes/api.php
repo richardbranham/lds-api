@@ -192,6 +192,11 @@ Route::group([
 		Log::info($request->all());
 		Log::info("user create = " . $request->userFullName);
 
+		if(User::where('email', '=', $request->email)->first() != null) {
+			Log::info("User already exists.");
+			return json_encode("User already exists.");
+		}
+
 		$user = new User();
 		$user->name = $request->userFullName;
 		$user->email = $request->email;
@@ -200,7 +205,7 @@ Route::group([
 
 		Log::info("Saved new user to DB.");
 
-		return [];
+		return json_encode("New user added to system.");
 
 	});
 
