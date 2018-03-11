@@ -4,3 +4,5 @@ vendor/composer/installed.json
 vendor/composer/ClassLoader.php
 
 vendor/composer/LICENSE
+
+.env
