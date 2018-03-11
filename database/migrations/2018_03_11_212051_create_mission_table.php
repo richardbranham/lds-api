@@ -13,7 +13,7 @@ class CreateMissionTable extends Migration
      */
     public function up()
     {
-        Schema::create('mission_area', function (Blueprint $table) {
+        Schema::create('mission', function (Blueprint $table) {
             $table->uuid('mission_uuid');
             $table->string('mission_name');
             $table->string('contact_name')->nullable();
