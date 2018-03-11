@@ -15,10 +15,11 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->uuid('location_uuid');
-            $table->integer('users_id');
+            $table->uuid('user_uuid');
             $table->decimal('latitude', 13, 10);
             $table->decimal('longitude', 13, 10);
             $table->timestamps();
+            $table->primary('location_uuid');
         });
     }
 

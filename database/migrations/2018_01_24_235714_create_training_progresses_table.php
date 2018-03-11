@@ -16,9 +16,10 @@ class CreateTrainingProgressesTable extends Migration
         Schema::create('training_progress', function (Blueprint $table) {
             $table->uuid('training_progress_uuid');
             $table->uuid('training_contents_uuid');
-            $table->integer('users_id');
+            $table->uuid('user_uuid');
             $table->integer('video_last_location');
             $table->timestamps();
+            $table->primary('training_progress_uuid');
         });
     }
 

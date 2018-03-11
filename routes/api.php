@@ -7,6 +7,7 @@ use App\Location;
 use App\TrainingContent;
 use App\TrainingProgress;
 use App\User;
+use Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -190,22 +191,37 @@ Route::group([
 		//Log::info("user create = " . $request->email);
 		Log::info("user create:  ");
 		Log::info($request->all());
-		Log::info("user create = " . $request->userFullName);
+		Log::info("user create = " . $request->username);
 
-		if(User::where('email', '=', $request->email)->first() != null) {
-			Log::info("User already exists.");
-			return json_encode("User already exists.");
+		if(User::where('email', '=', strtolower($request->username))->first()) {
+            Log::info("User already exists.");
+            return Response::json([
+                'message' => "User already exists."
+            ], 203);
+			// return json_encode("User already exists.");
 		}
 
-		$user = new User();
-		$user->name = $request->userFullName;
-		$user->email = $request->email;
-		$user->password = '$2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe';
-		$user->save();
+
+        // '$2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe'; 
+        $user = User::create([
+            'email' => isset($request->email) ? $request->email : null,
+            'password' => '$2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe',
+            'username' => $request->username, 
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'mobile' => $request->mobile, 
+            'avatar' => null,
+            'missionary_type' => 'elder',
+            'device' => null
+        ]);
 
 		Log::info("Saved new user to DB.");
 
-		return json_encode("New user added to system.");
+		return Response::json([
+            'data' => $user,
+            'key' => $key
+        ], 200);
+        // json_encode("New user added to system.");
 
 	});
 

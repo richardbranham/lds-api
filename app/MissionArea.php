@@ -5,19 +5,19 @@ use App\UuidForKey;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TrainingContent extends Model
+class MissionArea extends Model
 {
     use UuidForKey;
     
-    protected $table = 'training_contents';
-    protected $primaryKey = 'training_contents_uuid';
+    protected $table = 'mission_area';
+    protected $primaryKey = 'mission_area_uuid';
     protected $keyType = 'uuid';
     protected $fillable = [
-    	'training_contents_uuid',
-        'file_path',
-        'file_name',
-        'file_type',
-        'video_length'
+    	'mission_uuid',
+        'area_name',
+        'contact_name',
+        'contact_phone',
+        'contact_email'
     ];
 
     protected $dates = [
