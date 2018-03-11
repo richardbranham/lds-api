@@ -7,7 +7,7 @@ use App\Location;
 use App\TrainingContent;
 use App\TrainingProgress;
 use App\User;
-use Response;
+// use Response;
 
 /*
 |--------------------------------------------------------------------------

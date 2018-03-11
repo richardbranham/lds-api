@@ -5,7 +5,7 @@ use App\UuidForKey;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MissionArea extends Model
+class Mission extends Model
 {
     use UuidForKey;
     
