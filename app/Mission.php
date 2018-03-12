@@ -1,13 +1,11 @@
 <?php
 
 namespace App;
-use App\UuidForKey;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Mission extends Model
 {
-    use UuidForKey;
     
     protected $table = 'mission';
     protected $primaryKey = 'mission_uuid';

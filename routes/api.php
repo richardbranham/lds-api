@@ -7,6 +7,7 @@ use App\Location;
 use App\TrainingContent;
 use App\TrainingProgress;
 use App\User;
+// use Log;
 // use Response;
 
 /*
@@ -186,42 +187,35 @@ Route::group([
 
 	});
 
-	Route::post('/user/create', function (Request $request) {
-		// $2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe
-		//Log::info("user create = " . $request->email);
-		Log::info("user create:  ");
-		Log::info($request->all());
-		Log::info("user create = " . $request->username);
+	Route::post('user/create', function (Request $request) {
+        try {
+            Log::info("user create:  ");
+            Log::info($request->all());
+            Log::info("user create = " . $request->username);
 
-		if(User::where('username', '=', strtolower($request->username))->first()) {
-            Log::info("User already exists.");
-            return "User already exists.";
-            // ], 203);
-			// return json_encode("User already exists.");
-		}
+            if(User::where('username', '=', strtolower($request->username))->first()) {
+                Log::info("User already exists.");
+                return "User already exists.";
+                // ], 203);
+                // return json_encode("User already exists.");
+            }
 
 
-        // '$2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe'; 
-        return User::create([
-            'email' => isset($request->email) ? $request->email : null,
-            'password' => bcrypt($request->password),
-            'username' => $request->username, 
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'mobile' => $request->mobile, 
-            'avatar' => null,
-            'missionary_type' => 'elder',
-            'device' => null
-        ]);
-
-		// Log::info("Saved new user to DB.");
-
-		// return Response::json([
-        //     'us' => $user,
-        //     'key' => $key
-        // ], 200);
-        // json_encode("New user added to system.");
-
+            // '$2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe'; 
+            return User::create([
+                'email' => isset($request->email) ? $request->email : null,
+                'password' => bcrypt($request->password),
+                'username' => $request->username, 
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'mobile' => $request->mobile, 
+                'avatar' => null,
+                'missionary_type' => 'elder',
+                'device' => null
+            ]);
+        } catch (Exception $e) {
+            Log::info($e);
+        }
 	});
 
 	Route::post('/user/get/{users_id?}', function (Request $request) {

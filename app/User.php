@@ -1,7 +1,6 @@
 <?php
 
 namespace App;
-use App\UuidForKey;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laravel\Passport\HasApiTokens;
@@ -11,11 +10,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, Notifiable;
-    use UuidForKey;
 
     protected $connection = 'missionapp';
     protected $primaryKey = 'user_uuid';
     public $timestamps = true;
+    protected $keyType = 'uuid';
     /**
      * The attributes that are mass assignable.
      *
