@@ -195,15 +195,14 @@ Route::group([
 
 		if(User::where('username', '=', strtolower($request->username))->first()) {
             Log::info("User already exists.");
-            return Response::json([
-                'message' => "User already exists."
-            ], 203);
+            return "User already exists.";
+            // ], 203);
 			// return json_encode("User already exists.");
 		}
 
 
         // '$2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe'; 
-        $user = User::create([
+        return User::create([
             'email' => isset($request->email) ? $request->email : null,
             'password' => bcrypt($request->password),
             'username' => $request->username, 
@@ -215,12 +214,12 @@ Route::group([
             'device' => null
         ]);
 
-		Log::info("Saved new user to DB.");
+		// Log::info("Saved new user to DB.");
 
-		return Response::json([
-            'data' => $user,
-            'key' => $key
-        ], 200);
+		// return Response::json([
+        //     'us' => $user,
+        //     'key' => $key
+        // ], 200);
         // json_encode("New user added to system.");
 
 	});
