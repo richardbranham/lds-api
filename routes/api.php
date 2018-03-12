@@ -205,7 +205,7 @@ Route::group([
         // '$2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe'; 
         $user = User::create([
             'email' => isset($request->email) ? $request->email : null,
-            'password' => '$2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe',
+            'password' => bcrypt($request->password),
             'username' => $request->username, 
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
