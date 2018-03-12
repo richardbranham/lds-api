@@ -1,4 +1,7 @@
-
+vendor
+node_modules
+public/storage
+storage/fonts
 vendor/composer/installed.json
 
 vendor/composer/ClassLoader.php

@@ -17,6 +17,7 @@ class TrainingContent extends Model
         'file_path',
         'file_name',
         'file_type',
+        'file_image_path',
         'video_length'
     ];
 

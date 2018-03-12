@@ -31,6 +31,7 @@ class User extends Authenticatable implements JWTSubject
         'mobile', 
         'avatar',
         'missionary_type',
+        'access_level',
         'device'
     ];
 

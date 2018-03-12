@@ -200,21 +200,26 @@ Route::group([
                 // return json_encode("User already exists.");
             }
 
-
+                // keith '$2y$10$sYvUSNIch5/t3IVG1QUCmu9bnp3yLyuSM/mxr9txWzlHPDJGwysCS';
             // '$2y$10$B7jvjK6yPc0xr.LfT4Suz.QVSifdxfNktyvx6HRWu0E1uzHPQ3sFe'; 
-            return User::create([
+            $user = User::create([
                 'email' => isset($request->email) ? $request->email : null,
                 'password' => bcrypt($request->password),
-                'username' => $request->username, 
+                'username' => strtolower($request->username), 
                 'firstname' => $request->firstname,
                 'lastname' => $request->lastname,
                 'mobile' => $request->mobile, 
                 'avatar' => null,
                 'missionary_type' => 'elder',
+                'access_level' => 'elder',
                 'device' => null
             ]);
+
+            Log::info($user);
+            return $user;
         } catch (Exception $e) {
             Log::info($e);
+            return $e;
         }
 	});
 
