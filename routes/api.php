@@ -193,7 +193,7 @@ Route::group([
 		Log::info($request->all());
 		Log::info("user create = " . $request->username);
 
-		if(User::where('email', '=', strtolower($request->username))->first()) {
+		if(User::where('username', '=', strtolower($request->username))->first()) {
             Log::info("User already exists.");
             return Response::json([
                 'message' => "User already exists."
