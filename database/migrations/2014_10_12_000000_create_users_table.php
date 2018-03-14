@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('device')->nullable();
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamps(); 
             $table->primary('user_uuid');
         });
     }

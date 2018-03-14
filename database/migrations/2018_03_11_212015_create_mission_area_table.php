@@ -20,6 +20,7 @@ class CreateMissionAreaTable extends Migration
             $table->string('contact_name')->nullable();
             $table->string('contact_phone')->nullable();
             $table->string('contact_email')->nullable();
+            $table->timestamps(); 
             $table->primary('mission_area_uuid');
         });
     }

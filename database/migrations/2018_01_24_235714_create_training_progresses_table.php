@@ -18,7 +18,7 @@ class CreateTrainingProgressesTable extends Migration
             $table->uuid('training_contents_uuid');
             $table->uuid('user_uuid');
             $table->integer('video_last_location');
-            $table->timestamps();
+            $table->timestamps(); 
             $table->primary('training_progress_uuid');
         });
     }

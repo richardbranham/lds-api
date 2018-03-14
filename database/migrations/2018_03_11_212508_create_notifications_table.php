@@ -18,6 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->string('title');
             $table->string('body')->nullable();
             $table->string('content_uuids')->nullable(); //comma separated
+            $table->timestamps(); 
             $table->primary('notification_uuid');
         });
     }

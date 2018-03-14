@@ -18,7 +18,7 @@ class CreateLocationsTable extends Migration
             $table->uuid('user_uuid');
             $table->decimal('latitude', 13, 10);
             $table->decimal('longitude', 13, 10);
-            $table->timestamps();
+            $table->timestamps(); 
             $table->primary('location_uuid');
         });
     }
