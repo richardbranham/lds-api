@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\UuidForKey;
+use App\Traits\UuidForKey;
 use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model

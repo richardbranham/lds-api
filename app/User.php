@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-use App\UuidForKey;
+use App\Traits\UuidForKey;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laravel\Passport\HasApiTokens;
