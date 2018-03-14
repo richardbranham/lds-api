@@ -15,6 +15,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $connection = 'missionapp';
     protected $primaryKey = 'user_uuid';
+    protected $keyType = 'uuid';
     public $timestamps = true;
     /**
      * The attributes that are mass assignable.
@@ -66,7 +67,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function trainingassignments()
     {
-        return $this->hasMany('App\TrainingProgress', 'users_id', 'id');
+        return $this->hasMany(TrainingProgress::class, 'user_uuid');
     }
 
     public function trainingcontent()

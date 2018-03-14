@@ -12,6 +12,7 @@ class TrainingContent extends Model
     protected $table = 'training_contents';
     protected $primaryKey = 'training_contents_uuid';
     protected $keyType = 'uuid';
+    public $timestamps = true;
     protected $fillable = [
     	'training_contents_uuid',
         'file_path',
@@ -28,4 +29,9 @@ class TrainingContent extends Model
 
     protected $casts = [
     ];
+
+    public function trainingcontent(){
+        return $this->hasMany(TrainingContent::class, 'training_contents_uuid');
+    }
+
 }

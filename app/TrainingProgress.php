@@ -12,6 +12,7 @@ class TrainingProgress extends Model
     protected $table = 'training_progress';
     protected $primaryKey = 'training_progress_uuid';
     protected $keyType = 'uuid';
+    public $timestamps = true;
     protected $fillable = [
     	'training_progress_uuid',
         'training_contents_uuid',
@@ -27,8 +28,10 @@ class TrainingProgress extends Model
     protected $casts = [
     ];
 
-    public function trainingcontent()
-    {
+    public function trainingcontent(){
         return $this->hasOne('App\TrainingContent', 'training_contents_uuid', 'training_contents_uuid');
+    }
+    public function users(){
+        return $this->hasMany(User::class, 'user_uuid');
     }
 }
