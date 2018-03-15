@@ -14,7 +14,6 @@ class TrainingProgress extends Model
     protected $keyType = 'uuid';
     public $timestamps = true;
     protected $fillable = [
-    	'training_progress_uuid',
         'training_contents_uuid',
         'user_uuid',
         'video_last_location'
@@ -33,13 +32,13 @@ class TrainingProgress extends Model
     ];
 
     public function content() {
-        return $this->hasOne(TrainingContent::class, 'training_contents_uuid');
+        return $this->belongsTo(TrainingContent::class, 'training_contents_uuid');
     }
 
     public function trainingcontent(){
         return $this->hasOne('App\TrainingContent', 'training_contents_uuid', 'training_contents_uuid');
     }
     public function users(){
-        return $this->hasMany(User::class, 'user_uuid');
+        return $this->belongsTo(User::class, 'user_uuid');
     }
 }

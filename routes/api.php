@@ -131,7 +131,7 @@ Route::group([
         $user = User::find($user_uuid);
         if ($user) {
             $progress = $user->trainingassignments()->get();
-            if ($progress) $progress = $progress->sortBy('created_at', 'desc');
+            if ($progress) $progress = $progress->sortByDesc('created_at');
             return response()->json([
                 'progress' => $progress
             ], 200);
