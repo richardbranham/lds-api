@@ -91,7 +91,7 @@ Route::group([
 		$contents = Storage::url('public/StatueOfLiberty.jpg');
 		$contents = Storage::url('public/UserStatusChanges.mp4');
 		return $contents;
-	});
+    });
 
 	Route::post('/training/getcontent/{getall?}', function (Request $request) {
 		Log::info("Getting content");
@@ -127,6 +127,19 @@ Route::group([
 		return User::find($users_id)->trainingcontent;
 	});
 
+    Route::get('/training/getprogress/{user_uuid}', function ($user_uuid) {
+        $user = User::find($user_uuid);
+        if ($user) {
+            $progress = $user->trainingassignments()->get();
+            if ($progress) $progress = $progress->sortBy('created_at', 'desc');
+            return response()->json([
+                'progress' => $progress
+            ], 200);
+        } 
+        return response()->json([
+            'error' => 'Unable to locate user'
+        ], 403);
+	});
 
 	Route::post('/training/getprogress/{useronly?}', function (Request $request) {
 		Log::info("Getting progress");
