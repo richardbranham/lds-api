@@ -150,6 +150,19 @@ Route::group([
 		}
 	});
 
+	Route::post('/training/getassignments/{useronly?}', function (Request $request) {
+		Log::info("Getting assignments");
+
+		if($request->useronly && $request->users_id) {
+			Log::info("Auth::id() = " . Auth::id());
+			Log::info("returning " . User::find(Auth::id())->trainingassignments);
+			return User::find(Auth::id())->trainingassignments;
+		}
+		else {
+			return TrainingProgress::all();
+		}
+	});
+
 	Route::post('/training/push', function (Request $request) {
 		$uuid = $request->uuid;
 		//$allUsers = Users::where();
@@ -162,7 +175,9 @@ Route::group([
 			$progressRecord = new TrainingProgress();
 			$progressRecord->training_progress_uuid = Uuid::generate();
 			$progressRecord->training_contents_uuid = $uuid;
+			Log::info("training_contents_uuid = " . $progressRecord->training_contents_uuid);
 			$progressRecord->users_id = $user->id;
+			Log::info("users_id = " . $progressRecord->users_id);
 			$progressRecord->video_last_location = 0;
 			$progressRecord->save();
 		}
