@@ -16,6 +16,7 @@ class AddImageWidthAndHeightToTrainingContentsTable extends Migration
         Schema::table('training_contents', function (Blueprint $table) {
             $table->integer('file_image_width')->nullable();
             $table->integer('file_image_height')->nullable();
+            $table->integer('is_video')->nullable();
         });
     }
 
@@ -29,6 +30,7 @@ class AddImageWidthAndHeightToTrainingContentsTable extends Migration
         Schema::table('training_contents', function (Blueprint $table) {
             $table->dropColumn('file_image_width');
             $table->dropColumn('file_image_height');
+            $table->dropColumn('is_video');
         });
     }
 }
