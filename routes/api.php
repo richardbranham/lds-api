@@ -159,7 +159,11 @@ Route::group([
 			return User::find(Auth::id())->trainingassignments;
 		}
 		else {
-			return TrainingProgress::all();
+			//return TrainingProgress::all();
+			return TrainingProgress::join('training_contents', 'training_contents.training_contents_uuid', '=', 'training_progress.training_contents_uuid')
+				->join('users', 'users.id', '=', 'training_progress.users_id')
+				->select('training_contents.file_name', 'training_progress_uuid', 'training_contents.training_contents_uuid', 'users_id', 'video_last_location', 'training_progress.created_at', 'training_progress.updated_at', 'name', 'email')
+				->get();
 		}
 	});
 
